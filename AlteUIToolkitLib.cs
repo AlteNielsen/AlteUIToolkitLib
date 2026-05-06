@@ -2,66 +2,69 @@ using System;
 using UnityEngine.UIElements;
 using System.Collections.Generic;
 
-public static class AlteUIToolkitLib
+namespace Alte.UI
 {
-    public static void WriteTexts(UIDocument document, string target, Span<string> texts)
+    public static class AlteUIToolkitLib
     {
-        List<Label> labels = document.rootVisualElement.Query<Label>("target").ToList();
-        for(int i = 0; i < labels.Count; i++)
+        public static void WriteTexts(UIDocument document, string target, Span<string> texts)
         {
-            labels[i].text = texts[i];
+            List<Label> labels = document.rootVisualElement.Query<Label>("target").ToList();
+            for (int i = 0; i < labels.Count; i++)
+            {
+                labels[i].text = texts[i];
+            }
         }
-    }
 
-    public static void RegisterClickEvents(UIDocument document, string target, Action<int> eve)
-    {
-        List<Button> buttons = document.rootVisualElement.Query<Button>("target").ToList();
-        for(int i = 0; i < buttons.Count; i++)
+        public static void RegisterClickEvents(UIDocument document, string target, Action<int> eve)
         {
-            int index = i;
-            buttons[i].clicked += () => eve(index);
+            List<Button> buttons = document.rootVisualElement.Query<Button>("target").ToList();
+            for (int i = 0; i < buttons.Count; i++)
+            {
+                int index = i;
+                buttons[i].clicked += () => eve(index);
+            }
         }
-    }
 
-    public static void SwitchClass(VisualElement target, Span<string> trueDisplay, Span<string> falseDisplay, bool mode)
-    {
-        if(mode)
+        public static void SwitchClass(VisualElement target, Span<string> trueDisplay, Span<string> falseDisplay, bool mode)
         {
-            for(int i = 0; i < falseDisplay.Length; i++)
+            if (mode)
             {
-                target.RemoveFromClassList(falseDisplay[i]);
+                for (int i = 0; i < falseDisplay.Length; i++)
+                {
+                    target.RemoveFromClassList(falseDisplay[i]);
+                }
+                for (int i = 0; i < trueDisplay.Length; i++)
+                {
+                    target.AddToClassList(trueDisplay[i]);
+                }
             }
-            for (int i = 0; i < trueDisplay.Length; i++)
+            else
             {
-                target.AddToClassList(trueDisplay[i]);
+                for (int i = 0; i < trueDisplay.Length; i++)
+                {
+                    target.RemoveFromClassList(trueDisplay[i]);
+                }
+                for (int i = 0; i < falseDisplay.Length; i++)
+                {
+                    target.AddToClassList(falseDisplay[i]);
+                }
             }
         }
-        else
-        {
-            for (int i = 0; i < trueDisplay.Length; i++)
-            {
-                target.RemoveFromClassList(trueDisplay[i]);
-            }
-            for (int i = 0; i < falseDisplay.Length; i++)
-            {
-                target.AddToClassList(falseDisplay[i]);
-            }
-        }
-    }
 
-    public static void SwitchDisplay(Span<VisualElement> targets, Span<string> classes, int index)
-    {
-        for(int i = 0; i < targets.Length; i++)
+        public static void SwitchDisplay(Span<VisualElement> targets, Span<string> classes, int index)
         {
-            for(int j = 0; j < classes.Length; j++)
+            for (int i = 0; i < targets.Length; i++)
             {
-                targets[i].RemoveFromClassList(classes[j]);
+                for (int j = 0; j < classes.Length; j++)
+                {
+                    targets[i].RemoveFromClassList(classes[j]);
+                }
             }
-        }
-        if (index < 0) return;
-        for(int i = 0; i < classes.Length;  i++)
-        {
-            targets[index].AddToClassList(classes[i]);
+            if (index < 0) return;
+            for (int i = 0; i < classes.Length; i++)
+            {
+                targets[index].AddToClassList(classes[i]);
+            }
         }
     }
 }
